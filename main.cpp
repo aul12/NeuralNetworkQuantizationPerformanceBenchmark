@@ -42,7 +42,9 @@ int main(int argc, char **argv) {
     }
 
     for (const auto &future : futures) {
-        future.wait();
+        if (future.valid()) {
+            future.wait();
+        }
     }
     std::cout << std::endl;
 

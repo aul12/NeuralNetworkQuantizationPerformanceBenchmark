@@ -118,9 +118,9 @@ auto Loader::next() -> std::pair<cv::Mat, std::size_t> {
 }
 
 auto Loader::hasNext() const -> bool {
-    if (countCreated > 4000) {
+    /*if (countCreated > 4000) {
         return false;
-    }
+    }*/
     std::lock_guard<std::mutex> guard{lock};
     return recordingsIt != recordings.cend();
 }

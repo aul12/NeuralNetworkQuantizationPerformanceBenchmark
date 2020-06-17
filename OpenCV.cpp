@@ -19,7 +19,7 @@ auto OpenCV::forward(const cv::Mat &data) -> std::array<double, 30> {
     bool matIsDouble = (result.type() & CV_MAT_DEPTH_MASK) == CV_64F;
 
     std::array<double, 30> pdf{};
-    for (auto c=0u; c<29; ++c) {
+    for (auto c=0u; c<30; ++c) {
         if (matIsDouble) {
             pdf[c] = result.at<double>(c);
         } else {

@@ -99,6 +99,13 @@ void Statistics::printHist(std::array<T, BINS> hist) {
     for (auto x = 0U; x < BINS; ++x) {
         std::cout << static_cast<float>(x) / BINS << "\t";
     }
+
+    std::cout << "\n\nAs Table:\n";
+    for (auto c=0U; c<hist.size(); ++c) {
+        auto low = static_cast<float>(c) / BINS;
+        auto high = static_cast<float>(c+1) / BINS;
+        std::cout << "[" << low << ", " << high << "):\t" << hist[c] << std::endl;
+    }
 }
 
 #endif //QUANTIZATIONPERFORMANCE_STATISTICS_HPP
