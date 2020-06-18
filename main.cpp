@@ -42,17 +42,15 @@ int main(int argc, char **argv) {
     }
 
     for (const auto &future : futures) {
-        if (future.valid()) {
-            future.wait();
-        }
+        future.wait();
     }
     std::cout << std::endl;
 
     std::cout << "With Quantization: " << std::endl;
-    tfStatistics.printAll<10>();
+    tfStatistics.printAll<20>();
 
     std::cout << "\n\n\nWithout Quantization: " << std::endl;
-    cvStatistics.printAll<10>();
+    cvStatistics.printAll<20>();
 
     return 0;
 }

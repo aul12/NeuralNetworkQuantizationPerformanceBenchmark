@@ -49,11 +49,16 @@ void Statistics::printAll() const {
 
 template<std::size_t BINS, std::size_t STEPS>
 void Statistics::printOutputHist() const {
-    std::array<float, BINS> hist;
+    std::array<float, BINS> hist{};
     for (const auto &[pdf, _] : results) {
         for (const auto &out : pdf) {
-            auto bin = static_cast<std::size_t>(out * BINS);
-            hist[bin] += 1;
+            auto binF = out * BINS;
+            if (binF >= BINS) {
+                binF = BINS - 1;
+            } else if (binF < 0) {
+                binF = 0;
+            }
+            hist[static_cast<std::size_t>(binF)] += 1;
         }
     }
     printHist<BINS, STEPS, typename decltype(hist)::value_type>(hist);
@@ -61,13 +66,18 @@ void Statistics::printOutputHist() const {
 
 template<std::size_t BINS, std::size_t STEPS>
 void Statistics::printCertaintyHist() const {
-    std::array<float, BINS> hist;
+    std::array<float, BINS> hist{};
     for (const auto &[pdf, label] : results) {
         auto maxElem = std::max_element(pdf.cbegin(), pdf.cend());
         auto prediction = std::distance(pdf.cbegin(), maxElem);
         if (static_cast<std::size_t>(prediction) == label) {
-            auto bin = static_cast<std::size_t>(*maxElem * BINS);
-            hist[bin] += 1;
+            auto binF = *maxElem * BINS;
+            if (binF >= BINS) {
+                binF = BINS - 1;
+            } else if (binF < 0) {
+                binF = 0;
+            }
+            hist[static_cast<std::size_t>(binF)] += 1;
         }
     }
     printHist<BINS, STEPS, typename decltype(hist)::value_type>(hist);
@@ -88,16 +98,16 @@ void Statistics::printHist(std::array<T, BINS> hist) {
         auto val = 1 - (y + .5F) / BINS;
         for (auto x = 0U; x < hist.size(); ++x) {
             if (hist[x] > val) {
-                std::cout << "#\t";
+                std::cout << "   #\t";
             } else {
-                std::cout << " \t";
+                std::cout << "    \t";
             }
         }
         std::cout << "\n";
     }
 
     for (auto x = 0U; x < BINS; ++x) {
-        std::cout << static_cast<float>(x) / BINS << "\t";
+        std::cout << std::setw(4) << static_cast<float>(x) / BINS << "\t";
     }
 
     std::cout << "\n\nAs Table:\n";

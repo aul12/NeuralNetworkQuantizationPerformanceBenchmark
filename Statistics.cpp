@@ -23,17 +23,20 @@ void Statistics::printConfusionMatrix() const {
         confMatrix[prediction][label] += 1;
     }
 
-    std::cout << "GT\\Pred \t";
+    std::cout << "GT\\Pred |\t";
     for (auto c=0; c<30; ++c) {
-        std::cout << std::setw(5) << c;
+        std::cout << std::setw(4) << c << "|";
+    }
+    std::cout << "\n|";
+    for (auto c=0; c<30; ++c) {
+        std::cout << "---|";
     }
 
     for (auto y = 0u; y < confMatrix.size(); ++y) {
-        std::cout << "\n" << std::setw(8) << y << "\t";
+        std::cout << "\n|" << std::setw(7) << y << "|\t";
         for (auto x = 0u; x < confMatrix[x].size(); ++x) {
-            std::cout << std::setw(5) << confMatrix[x][y];
+            std::cout << std::setw(4) << confMatrix[x][y] << "|";
         }
-        std::cout << "\n";
     }
 }
 
