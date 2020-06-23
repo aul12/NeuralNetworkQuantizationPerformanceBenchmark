@@ -28,6 +28,7 @@ class Statistics {
         template<std::size_t BINS, std::size_t STEPS>
         void printCertaintyHist() const;
 
+        void printNormalizedEntropy() const;
     private:
         template<std::size_t BINS, std::size_t STEPS, typename T>
         static void printHist(std::array<T, BINS> hist);
@@ -41,6 +42,7 @@ void Statistics::printAll() const {
     printAccuracy();
     std::cout << std::endl << "Confusion Matrix:" << std::endl;
     printConfusionMatrix();
+    printNormalizedEntropy();
     std::cout << std::endl << "Output value histogram:" << std::endl;
     printOutputHist<BINS, BINS>();
     std::cout << std::endl << "Certainty histogram:" << std::endl;
@@ -114,7 +116,7 @@ void Statistics::printHist(std::array<T, BINS> hist) {
     for (auto c=0U; c<hist.size(); ++c) {
         auto low = static_cast<float>(c) / BINS;
         auto high = static_cast<float>(c+1) / BINS;
-        std::cout << "[" << low << ", " << high << "):\t" << hist[c] << std::endl;
+        std::cout << "\"[" << low << ", " << high << ")\":\t" << hist[c] << "," << std::endl;
     }
 }
 

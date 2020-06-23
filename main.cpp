@@ -47,10 +47,10 @@ int main(int argc, char **argv) {
     std::cout << std::endl;
 
     std::cout << "With Quantization: " << std::endl;
-    tfStatistics.printAll<20>();
+    tfStatistics.printAll<10>();
 
     std::cout << "\n\n\nWithout Quantization: " << std::endl;
-    cvStatistics.printAll<20>();
+    cvStatistics.printAll<10>();
 
     return 0;
 }

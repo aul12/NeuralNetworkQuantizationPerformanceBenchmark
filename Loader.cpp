@@ -86,7 +86,7 @@ std::map<std::string, std::string> directories = {
 Loader::Loader(const std::string &configPath) : countCreated{0} {
     cv::FileStorage fileStorage{configPath, 0};
     auto rootPath = fileStorage["TrainingData"].string();
-    auto recordingNode = fileStorage["Recordings"];
+    auto recordingNode = fileStorage["Verification"];
     for (auto &&c : recordingNode) {
         recordings.emplace(rootPath + c.string());
     }
@@ -118,7 +118,7 @@ auto Loader::next() -> std::pair<cv::Mat, std::size_t> {
 }
 
 auto Loader::hasNext() const -> bool {
-    /*if (countCreated > 4000) {
+    /*if (countCreated > 40) {
         return false;
     }*/
     std::lock_guard<std::mutex> guard{lock};

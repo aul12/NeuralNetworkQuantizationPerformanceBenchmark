@@ -6,6 +6,7 @@
  */
 #include <iostream>
 #include <iomanip>
+#include <cmath>
 
 #include "Statistics.hpp"
 
@@ -23,11 +24,11 @@ void Statistics::printConfusionMatrix() const {
         confMatrix[prediction][label] += 1;
     }
 
-    std::cout << "GT\\Pred |\t";
+    std::cout << "\n\n|GT\\Pred |\t";
     for (auto c=0; c<30; ++c) {
         std::cout << std::setw(4) << c << "|";
     }
-    std::cout << "\n|";
+    std::cout << "\n|---|";
     for (auto c=0; c<30; ++c) {
         std::cout << "---|";
     }
@@ -38,6 +39,7 @@ void Statistics::printConfusionMatrix() const {
             std::cout << std::setw(4) << confMatrix[x][y] << "|";
         }
     }
+    std::cout << "\n" << std::endl;
 }
 
 void Statistics::printAccuracy() const {
@@ -51,5 +53,21 @@ void Statistics::printAccuracy() const {
     }
 
     std::cout << "Accuracy: " << static_cast<float>(correct) / results.size() * 100 << "%" << std::endl;
+}
+
+void Statistics::printNormalizedEntropy() const {
+    double entropySum = 0;
+    for (const auto &[pdf, _] : results) {
+        double entropy = 0;
+        for (const auto &elem : pdf) {
+            if (elem > 0) {
+                entropy += elem * std::log2(elem);
+            }
+        }
+        entropy = (-entropy) / std::log2(pdf.size());
+        entropySum += entropy;
+    }
+
+    std::cout << "Normalized Entropy: " << entropySum / results.size() << std::endl;
 }
 
